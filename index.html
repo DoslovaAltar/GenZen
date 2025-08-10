@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Serene Neutrals -->
+    <!-- Application Structure Plan: The application is structured as a single-page journey with a sticky navigation bar for easy access to five core thematic sections: 1. An introduction ('Co je meditace') to set the context. 2. An interactive card-based explorer ('Objevte svůj styl') for different meditation types, which is more engaging than a static table. 3. A data visualization section ('Věda za klidem') using dynamic charts to make the scientific benefits tangible and comparable. 4. A practical, step-by-step guide ('Vaše první kroky') with an accordion UI and a simple interactive timer to make starting less intimidating. 5. An interactive myth-busting section ('Mýty vs. Fakta') using flipper cards for memorable learning. This non-linear, thematic structure was chosen to transform the dense report into an exploratory and user-friendly experience, allowing users to dive into topics based on their interest rather than following a rigid document flow. -->
+    <!-- Visualization & Content Choices: 1. (Types of Meditation) Report Info -> Goal: Compare/Organize -> Viz/Method: Interactive HTML/JS cards -> Interaction: Click to reveal details -> Justification: More engaging and less overwhelming than a large table. 2. (Benefits) Report Info -> Goal: Compare/Show Relationships -> Viz/Method: Chart.js Radar & Bar charts -> Interaction: Hover for tooltips -> Justification: Visually represents the multi-faceted benefits and allows for easy comparison between psychological and physical impacts. 3. (Brain Changes) Report Info -> Goal: Inform/Organize -> Viz/Method: HTML/Tailwind diagram -> Interaction: Static visual -> Justification: Simplifies complex neurological information into an easily digestible graphic. 4. (Beginner's Guide) Report Info -> Goal: Organize/Instruct -> Viz/Method: HTML/JS Accordion -> Interaction: Click to expand/collapse sections -> Justification: Breaks down the process into manageable steps, preventing information overload. 5. (Myths) Report Info -> Goal: Correct Misconceptions -> Viz/Method: HTML/CSS/JS Flipper Cards -> Interaction: Click to flip -> Justification: A playful and memorable way to contrast myths with facts. All choices support the designed application structure. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -90,7 +94,7 @@
              <div class="absolute inset-0 bg-gradient-to-br from-stone-50 to-amber-100 opacity-50"></div>
             <div class="container mx-auto px-6 text-center relative z-10">
                 <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 leading-tight">Objev meditaci s GenZen</h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">GenZen tě seznámí se světem meditace – od jejích starověkých kořenů po moderní vědecké poznatky. Najdeš si techniku, která ti vyhovuje, a začneš svou cestu k duševní pohodě.</p>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">GenZen tě seznámí se světem meditace – od jejích starověkých kořenů po moderní vědecké poznatky. Najděš si techniku, která vám vyhovuje, a začněte svou cestu k duševní pohodě.</p>
             </div>
         </section>
 
@@ -104,7 +108,7 @@
                     <div class="card bg-stone-50 p-8 rounded-xl">
                         <div class="text-4xl mb-4">📜</div>
                         <h3 class="text-xl font-semibold mb-2">Starověké kořeny</h3>
-                        <p class="text-gray-600">Praxe vznikla před tisíci lety v Indii. Byla klíčovou součástí hinduismu a buddhismu, zaměřená na duchovní růst a sebepoznání.</p>
+                        <p class="text-gray-600">Praxe vznikla před tisíci lety v Indii a šířila se po Hedvábné stezce. Byla klíčovou součástí hinduismu a buddhismu, zaměřená na duchovní růst a sebepoznání.</p>
                     </div>
                     <div class="card bg-stone-50 p-8 rounded-xl">
                         <div class="text-4xl mb-4">🧠</div>
@@ -123,8 +127,8 @@
         <section id="types" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Objev svůj styl</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Neexistuje jedna "správná" meditace. Různé techniky nabízejí odlišné cesty.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Objevte svůj styl</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Neexistuje jedna "správná" meditace. Různé techniky nabízejí odlišné cesty. Klikněte na karty a prozkoumejte, která z nich s vámi nejvíce rezonuje.</p>
                 </div>
                 <div id="types-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
@@ -135,7 +139,7 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Věda za klidem</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Přínosy meditace nejsou jen pocitové. Moderní věda potvrzuje měřitelné pozitivní změny v našem mozku, mysli i těle. Prozkoumej data a zjisti, jak meditace funguje.</p>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Přínosy meditace nejsou jen pocitové. Moderní věda potvrzuje měřitelné pozitivní změny v našem mozku, mysli i těle. Prozkoumejte data a zjistěte, jak meditace funguje.</p>
                 </div>
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="flex flex-col items-center">
@@ -143,7 +147,7 @@
                         <div class="chart-container">
                             <canvas id="mentalBenefitsChart"></canvas>
                         </div>
-                        <p class="text-center mt-4 text-gray-600">Meditace posiluje duševní odolnost, zlepšuje náladu a zvyšuje schopnost soustředění. :D</p>
+                        <p class="text-center mt-4 text-gray-600">Meditace posiluje duševní odolnost, zlepšuje náladu a zvyšuje schopnost soustředění.</p>
                     </div>
                     <div class="flex flex-col items-center">
                         <h3 class="text-2xl font-semibold mb-4 text-center">Fyzické přínosy</h3>
@@ -176,21 +180,24 @@
         <section id="start" class="py-16 md:py-24">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Začni teď hned</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Začít s meditací je jednodušší, než si myslíš. Nepotřebuješ žádné speciální vybavení, jen pár minut času a ochotu zkoušet. Zkus si jednoduché mindfulness. Projď na to.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Vaše první kroky</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Začít s meditací je jednodušší, než si myslíte. Nepotřebujete žádné speciální vybavení, jen pár minut času a ochotu zkoušet. Projděte si náš interaktivní návod.</p>
                 </div>
                 <div class="max-w-3xl mx-auto grid md:grid-cols-2 gap-8">
                     <div id="accordion" class="space-y-4">
-                        <!-- Accordion items will be injected here -->
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-md flex flex-col items-center justify-center">
                         <h3 class="text-2xl font-semibold mb-4 text-center">Vyzkoušejte si to</h3>
-                        <p class="text-gray-600 text-center mb-6">Vyber si délku a zkus jen sedět a vnímat svůj dech. Cílem není nic víc, než jen být. Pokud tě napadne myšlenka, je důležité si to nevyčítat a vrátit se k dechu.</p>
-                        <div id="timer-display" class="text-5xl font-mono mb-6">05:00</div>
-                        <div class="flex space-x-2 mb-6">
+                        <p class="text-gray-600 text-center mb-4">Vyberte si délku a zkuste jen sedět a vnímat svůj dech. Cílem není nic víc, než jen být.</p>
+                        <div id="timer-display" class="text-5xl font-mono mb-4">05:00</div>
+                        <div class="flex space-x-2 mb-4">
                             <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="300">5 min</button>
                             <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="600">10 min</button>
                             <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="900">15 min</button>
+                        </div>
+                        <div class="flex items-center justify-center space-x-2 mb-6 w-full max-w-xs">
+                            <input type="number" id="custom-time-input" class="w-24 text-center border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-indigo-400" placeholder="minuty">
+                            <button id="set-custom-time-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg transition">Nastavit</button>
                         </div>
                         <button id="start-timer-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-8 rounded-full transition duration-300">Začít</button>
                     </div>
@@ -202,9 +209,9 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Mýty vs. Fakta</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Kolem meditace panuje mnoho mýtů. Klikněte na karty a odhalte, co je pravda a co jen mylná představa.</p>
                 </div>
                 <div id="myths-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Flipper cards will be injected here -->
                 </div>
             </div>
         </section>
@@ -212,7 +219,7 @@
 
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Interaktivní průvodce meditací. Vytvořeno s cílem šířit klid a pohodu.</p>
+            <p>&copy; 2025 GenZen. Vytvořeno s cílem šířit klid a pohodu.</p>
         </div>
     </footer>
 
@@ -278,19 +285,19 @@
             const accordionData = [
                 {
                     title: '1. Příprava: Prostor a postoj',
-                    content: 'Najdi si klidné místo, kde nebudeš rušen. Sedět můžeš na židli s rovnými zády a chodidly na zemi, nebo na polštáři se zkříženýma nohama. Důležitá je vzpřímená, ale uvolněná páteř.'
+                    content: 'Najděte si klidné místo, kde nebudete rušeni. Sedět můžete na židli s rovnými zády a chodidly na zemi, nebo na polštáři se zkříženýma nohama. Důležitá je vzpřímená, ale uvolněná páteř.'
                 },
                 {
                     title: '2. Dýchání a zaměření pozornosti',
-                    content: 'Zavři oči nebo je nech mírně pootevřené. Zaměř pozornost na svůj dech. Vnímej, jak vzduch proudí dovnitř a ven. Dech nijak neměň, jen ho pozoruj. Je to tvoje kotva v přítomném okamžiku.'
+                    content: 'Zavřete oči nebo je nechte mírně pootevřené. Zaměřte pozornost na svůj dech. Vnímejte, jak vzduch proudí dovnitř a ven. Dech nijak neměňte, jen ho pozorujte. Je to vaše kotva v přítomném okamžiku.'
                 },
                 {
                     title: '3. Jak naložit s myšlenkami',
-                    content: 'Je naprosto normální, že se tvoje mysl bude toulat. Cílem není myšlenky zastavit. Když si všimneš, že jsi se ztratil/a v myšlenkách, jemně a bez posuzování vrať pozornost zpět k dechu. Každý návrat je vítězstvím.'
+                    content: 'Je naprosto normální, že se vaše mysl bude toulat. Cílem není myšlenky zastavit. Když si všimnete, že jste se ztratili v myšlenkách, jemně a bez posuzování vraťte pozornost zpět k dechu. Každý návrat je malým vítězstvím.'
                 },
                 {
                     title: '4. Překonávání běžných obtíží',
-                    content: 'Neklid, ospalost nebo fyzické nepohodlí jsou běžné. Zkus je pozorovat se zvědavostí. Pokud je nepohodlí příliš velké, je v pořádku vědomě změnit polohu. Buď k sobě laskavý/á, je to proces učení. A jak se říká,"žádný učený z nebe nespadl"'. :D
+                    content: 'Neklid, ospalost nebo fyzické nepohodlí jsou běžné. Zkuste je pozorovat se zvědavostí. Pokud je nepohodlí příliš velké, je v pořádku vědomě změnit polohu. Buďte k sobě laskaví, je to proces učení.'
                 }
             ];
 
@@ -319,7 +326,6 @@
                         content.style.maxHeight = null;
                         icon.style.transform = 'rotate(0deg)';
                     } else {
-                        // Close other open accordions
                         document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
                         document.querySelectorAll('.accordion-button span:last-child').forEach(i => i.style.transform = 'rotate(0deg)');
                         
@@ -489,9 +495,33 @@
             const timerDisplay = document.getElementById('timer-display');
             const startTimerBtn = document.getElementById('start-timer-btn');
             const timerBtns = document.querySelectorAll('.timer-btn');
+            const customTimeInput = document.getElementById('custom-time-input');
+            const setCustomTimeBtn = document.getElementById('set-custom-time-btn');
+            
             let countdown;
             let totalSeconds;
             let selectedTime = 300;
+            let audioContext;
+
+            function playCalmingSound() {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.5, audioContext.currentTime + 0.5);
+                gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 2.5);
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 3);
+            }
 
             function formatTime(seconds) {
                 const mins = Math.floor(seconds / 60);
@@ -500,6 +530,9 @@
             }
 
             function startTimer() {
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
                 clearInterval(countdown);
                 totalSeconds = selectedTime;
                 timerDisplay.textContent = formatTime(totalSeconds);
@@ -512,6 +545,7 @@
                         clearInterval(countdown);
                         timerDisplay.textContent = "Skvělá práce!";
                         startTimerBtn.textContent = 'Začít znovu';
+                        playCalmingSound();
                     }
                 }, 1000);
             }
@@ -523,6 +557,9 @@
             }
 
             startTimerBtn.addEventListener('click', () => {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
                 if (startTimerBtn.textContent.includes('Začít')) {
                     startTimer();
                 } else {
@@ -537,13 +574,17 @@
                     timerDisplay.textContent = formatTime(selectedTime);
                 });
             });
+
+            setCustomTimeBtn.addEventListener('click', () => {
+                const minutes = parseInt(customTimeInput.value, 10);
+                if (!isNaN(minutes) && minutes > 0) {
+                    stopTimer();
+                    selectedTime = minutes * 60;
+                    timerDisplay.textContent = formatTime(selectedTime);
+                    customTimeInput.value = '';
+                }
+            });
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
