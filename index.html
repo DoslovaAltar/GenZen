@@ -1,548 +1,570 @@
 <!DOCTYPE html>
 <html lang="cs" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GenZen</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F7F4;
-            color: #3D3D3D;
-        }
-        .nav-link {
-            transition: color 0.3s, border-bottom-color 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-        .nav-link:hover, .nav-link.active {
-            color: #5A67D8;
-            border-bottom-color: #5A67D8;
-        }
-        .card {
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
-            }
-        }
-        .flipper-card { perspective: 1000px; }
-        .flipper-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
-        .flipper-card.flipped .flipper-card-inner { transform: rotateY(180deg); }
-        .flipper-card-front, .flipper-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-        .flipper-card-back { transform: rotateY(180deg); }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenZen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #3D3D3D;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #5A67D8;
+            border-bottom-color: #5A67D8;
+        }
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .flipper-card { perspective: 1000px; }
+        .flipper-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flipper-card.flipped .flipper-card-inner { transform: rotateY(180deg); }
+        .flipper-card-front, .flipper-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+        .flipper-card-back { transform: rotateY(180deg); }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+    </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-[#F8F7F4]/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <a href="#" class="text-2xl font-bold text-gray-800">GenZen</a>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#intro" class="nav-link text-gray-600 px-2 py-1">Úvod</a>
-                    <a href="#types" class="nav-link text-gray-600 px-2 py-1">Typy</a>
-                    <a href="#benefits" class="nav-link text-gray-600 px-2 py-1">Přínosy</a>
-                    <a href="#start" class="nav-link text-gray-600 px-2 py-1">Začít</a>
-                    <a href="#myths" class="nav-link text-gray-600 px-2 py-1">Mýty</a>
-                </div>
-                <button id="mobile-menu-button" class="md:hidden focus:outline-none">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
-            </div>
-            <div id="mobile-menu" class="hidden md:hidden mt-4">
-                <a href="#intro" class="block nav-link text-gray-600 py-2">Úvod</a>
-                <a href="#types" class="block nav-link text-gray-600 py-2">Typy</a>
-                <a href="#benefits" class="block nav-link text-gray-600 py-2">Přínosy</a>
-                <a href="#start" class="block nav-link text-gray-600 py-2">Začít</a>
-                <a href="#myths" class="block nav-link text-gray-600 py-2">Mýty</a>
-            </div>
-        </nav>
-    </header>
+    <header class="bg-[#F8F7F4]/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-2xl font-bold text-gray-800">GenZen</a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#intro" class="nav-link text-gray-600 px-2 py-1">Úvod</a>
+                    <a href="#types" class="nav-link text-gray-600 px-2 py-1">Typy</a>
+                    <a href="#benefits" class="nav-link text-gray-600 px-2 py-1">Přínosy</a>
+                    <a href="#start" class="nav-link text-gray-600 px-2 py-1">Začít</a>
+                    <a href="#myths" class="nav-link text-gray-600 px-2 py-1">Mýty</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#intro" class="block nav-link text-gray-600 py-2">Úvod</a>
+                <a href="#types" class="block nav-link text-gray-600 py-2">Typy</a>
+                <a href="#benefits" class="block nav-link text-gray-600 py-2">Přínosy</a>
+                <a href="#start" class="block nav-link text-gray-600 py-2">Začít</a>
+                <a href="#myths" class="block nav-link text-gray-600 py-2">Mýty</a>
+            </div>
+        </nav>
+    </header>
 
-    <main>
-        <section id="hero" class="relative py-20 md:py-32 bg-stone-100 overflow-hidden">
-             <div class="absolute inset-0 bg-gradient-to-br from-stone-50 to-amber-100 opacity-50"></div>
-            <div class="container mx-auto px-6 text-center relative z-10">
-                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 leading-tight">Objev meditaci s GenZen</h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">GenZen tě seznámí se světem meditace – od jejích starověkých kořenů po moderní vědecké poznatky. Najdeš si techniku, která ti vyhovuje, a začneš svou cestu k duševní pohodě.</p>
-            </div>
-        </section>
+    <main>
+        <section id="hero" class="relative py-20 md:py-32 bg-stone-100 overflow-hidden">
+             <div class="absolute inset-0 bg-gradient-to-br from-stone-50 to-amber-100 opacity-50"></div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 leading-tight">Objev meditaci s GenZen</h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">GenZen tě seznámí se světem meditace – od jejích starověkých kořenů po moderní vědecké poznatky. Najdeš si techniku, která ti vyhovuje, a začneš svou cestu k duševní pohodě.</p>
+            </div>
+        </section>
 
-        <section id="intro" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Co je meditace a proč na ní záleží?</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Meditace je tisíce let stará praxe, která se vyvinula z duchovních tradic v mocný nástroj pro moderní život. Jejím jádrem je trénink pozornosti a uvědomění, který nám pomáhá lépe zvládat stres, zlepšit soustředění a kultivovat vnitřní klid.</p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8 text-center">
-                    <div class="card bg-stone-50 p-8 rounded-xl">
-                        <div class="text-4xl mb-4">📜</div>
-                        <h3 class="text-xl font-semibold mb-2">Starověké kořeny</h3>
-                        <p class="text-gray-600">Praxe vznikla před tisíci lety v Indii. Byla klíčovou součástí hinduismu a buddhismu, zaměřená na duchovní růst a sebepoznání.</p>
-                    </div>
-                    <div class="card bg-stone-50 p-8 rounded-xl">
-                        <div class="text-4xl mb-4">🧠</div>
-                        <h3 class="text-xl font-semibold mb-2">Jádro praxe</h3>
-                        <p class="text-gray-600">Navzdory rozmanitosti technik je společným jmenovatelem "regulace pozornosti". Cílem je dosažení klidného, tichého stavu se zvýšenou bdělostí a vnitřním klidem.</p>
-                    </div>
-                    <div class="card bg-stone-50 p-8 rounded-xl">
-                        <div class="text-4xl mb-4">🌍</div>
-                        <h3 class="text-xl font-semibold mb-2">Moderní nástroj</h3>
-                        <p class="text-gray-600">Dnes je meditace sekularizovaná a dostupná všem. Slouží jako nástroj pro duševní kondici, zvládání stresu, zvyšování produktivity a celkovou pohodu v uspěchaném světě.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section id="intro" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Co je meditace a proč na ní záleží?</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Meditace je tisíce let stará praxe, která se vyvinula z duchovních tradic v mocný nástroj pro moderní život. Jejím jádrem je trénink pozornosti a uvědomění, který nám pomáhá lépe zvládat stres, zlepšit soustředění a kultivovat vnitřní klid.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="card bg-stone-50 p-8 rounded-xl">
+                        <div class="text-4xl mb-4">📜</div>
+                        <h3 class="text-xl font-semibold mb-2">Starověké kořeny</h3>
+                        <p class="text-gray-600">Praxe vznikla před tisíci lety v Indii. Byla klíčovou součástí hinduismu a buddhismu, zaměřená na duchovní růst a sebepoznání.</p>
+                    </div>
+                    <div class="card bg-stone-50 p-8 rounded-xl">
+                        <div class="text-4xl mb-4">🧠</div>
+                        <h3 class="text-xl font-semibold mb-2">Jádro praxe</h3>
+                        <p class="text-gray-600">Navzdory rozmanitosti technik je společným jmenovatelem "regulace pozornosti". Cílem je dosažení klidného, tichého stavu se zvýšenou bdělostí a vnitřním klidem.</p>
+                    </div>
+                    <div class="card bg-stone-50 p-8 rounded-xl">
+                        <div class="text-4xl mb-4">🌍</div>
+                        <h3 class="text-xl font-semibold mb-2">Moderní nástroj</h3>
+                        <p class="text-gray-600">Dnes je meditace sekularizovaná a dostupná všem. Slouží jako nástroj pro duševní kondici, zvládání stresu, zvyšování produktivity a celkovou pohodu v uspěchaném světě.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section id="types" class="py-16 md:py-24">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Objev svůj styl</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Neexistuje jedna "správná" meditace. Různé techniky nabízejí odlišné cesty.</p>
-                </div>
-                <div id="types-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                </div>
-            </div>
-        </section>
+        <section id="types" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Objev svůj styl</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Neexistuje jedna "správná" meditace. Různé techniky nabízejí odlišné cesty.</p>
+                </div>
+                <div id="types-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+            </div>
+        </section>
 
-        <section id="benefits" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Věda za klidem</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Přínosy meditace nejsou jen pocitové. Moderní věda potvrzuje měřitelné pozitivní změny v našem mozku, mysli i těle. Prozkoumej data a zjisti, jak meditace funguje.</p>
-                </div>
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
-                    <div class="flex flex-col items-center">
-                        <h3 class="text-2xl font-semibold mb-4 text-center">Psychické a emocionální přínosy</h3>
-                        <div class="chart-container">
-                            <canvas id="mentalBenefitsChart"></canvas>
-                        </div>
-                        <p class="text-center mt-4 text-gray-600">Meditace posiluje duševní odolnost, zlepšuje náladu a zvyšuje schopnost soustředění. :D</p>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <h3 class="text-2xl font-semibold mb-4 text-center">Fyzické přínosy</h3>
-                         <div class="chart-container">
-                            <canvas id="physicalBenefitsChart"></canvas>
-                        </div>
-                        <p class="text-center mt-4 text-gray-600">Pravidelná praxe prokazatelně zlepšuje spánek, snižuje krevní tlak a posiluje imunitní systém.</p>
-                    </div>
-                </div>
-                <div class="mt-16 pt-12 border-t">
-                    <h3 class="text-2xl font-semibold mb-8 text-center">Jak meditace mění mozek</h3>
-                    <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-center">
-                        <div class="p-6 bg-stone-50 rounded-lg">
-                            <h4 class="font-semibold text-lg mb-2">Silnější prefrontální kortex (PFC)</h4>
-                            <p class="text-gray-600">Zlepšuje rozhodování, plánování a emoční kontrolu. Meditace může tuto oblast "ztlušťovat".</p>
-                        </div>
-                        <div class="p-6 bg-stone-50 rounded-lg">
-                            <h4 class="font-semibold text-lg mb-2">Klidnější amygdala</h4>
-                            <p class="text-gray-600">Snižuje aktivitu v centru strachu a stresu, což vede k menší reaktivitě a úzkosti.</p>
-                        </div>
-                        <div class="p-6 bg-stone-50 rounded-lg">
-                            <h4 class="font-semibold text-lg mb-2">Slabší síť výchozího režimu (DMN)</h4>
-                            <p class="text-gray-600">Omezuje bloudění mysli a ruminaci (neustálé přemítání), což vede k větší přítomnosti.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section id="benefits" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Věda za klidem</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Přínosy meditace nejsou jen pocitové. Moderní věda potvrzuje měřitelné pozitivní změny v našem mozku, mysli i těle. Prozkoumej data a zjisti, jak meditace funguje.</p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-2xl font-semibold mb-4 text-center">Psychické a emocionální přínosy</h3>
+                        <div class="chart-container">
+                            <canvas id="mentalBenefitsChart"></canvas>
+                        </div>
+                        <p class="text-center mt-4 text-gray-600">Meditace posiluje duševní odolnost, zlepšuje náladu a zvyšuje schopnost soustředění. :D</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <h3 class="text-2xl font-semibold mb-4 text-center">Fyzické přínosy</h3>
+                         <div class="chart-container">
+                            <canvas id="physicalBenefitsChart"></canvas>
+                        </div>
+                        <p class="text-center mt-4 text-gray-600">Pravidelná praxe prokazatelně zlepšuje spánek, snižuje krevní tlak a posiluje imunitní systém.</p>
+                    </div>
+                </div>
+                <div class="mt-16 pt-12 border-t">
+                    <h3 class="text-2xl font-semibold mb-8 text-center">Jak meditace mění mozek</h3>
+                    <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8 text-center">
+                        <div class="p-6 bg-stone-50 rounded-lg">
+                            <h4 class="font-semibold text-lg mb-2">Silnější prefrontální kortex (PFC)</h4>
+                            <p class="text-gray-600">Zlepšuje rozhodování, plánování a emoční kontrolu. Meditace může tuto oblast "ztlušťovat".</p>
+                        </div>
+                        <div class="p-6 bg-stone-50 rounded-lg">
+                            <h4 class="font-semibold text-lg mb-2">Klidnější amygdala</h4>
+                            <p class="text-gray-600">Snižuje aktivitu v centru strachu a stresu, což vede k menší reaktivitě a úzkosti.</p>
+                        </div>
+                        <div class="p-6 bg-stone-50 rounded-lg">
+                            <h4 class="font-semibold text-lg mb-2">Slabší síť výchozího režimu (DMN)</h4>
+                            <p class="text-gray-600">Omezuje bloudění mysli a ruminaci (neustálé přemítání), což vede k větší přítomnosti.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section id="start" class="py-16 md:py-24">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Začni teď hned</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Začít s meditací je jednodušší, než si myslíš. Nepotřebuješ žádné speciální vybavení, jen pár minut času a ochotu zkoušet. Zkus si jednoduché mindfulness. Projď na to.</p>
-                </div>
-                <div class="max-w-3xl mx-auto grid md:grid-cols-2 gap-8">
-                    <div id="accordion" class="space-y-4">
-                        <!-- Accordion items will be injected here -->
-                    </div>
-                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col items-center justify-center">
-                        <h3 class="text-2xl font-semibold mb-4 text-center">Vyzkoušejte si to</h3>
-                        <p class="text-gray-600 text-center mb-6">Vyber si délku a zkus jen sedět a vnímat svůj dech. Cílem není nic víc, než jen být. Pokud tě napadne myšlenka, je důležité si to nevyčítat a vrátit se k dechu.</p>
-                        <div id="timer-display" class="text-5xl font-mono mb-6">05:00</div>
-                        <div class="flex space-x-2 mb-6">
-                            <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="300">5 min</button>
-                            <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="600">10 min</button>
-                            <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="900">15 min</button>
-                        </div>
-                        <button id="start-timer-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-8 rounded-full transition duration-300">Začít</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <section id="start" class="py-16 md:py-24">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Začni teď hned</h2>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Začít s meditací je jednodušší, než si myslíš. Nepotřebuješ žádné speciální vybavení, jen pár minut času a ochotu zkoušet. Zkus si jednoduché mindfulness. Projď na to.</p>
+                </div>
+                <div class="max-w-3xl mx-auto grid md:grid-cols-2 gap-8">
+                    <div id="accordion" class="space-y-4">
+                                            </div>
+                    <div class="bg-white p-8 rounded-xl shadow-md flex flex-col items-center justify-center">
+                        <h3 class="text-2xl font-semibold mb-4 text-center">Vyzkoušejte si to</h3>
+                        <p class="text-gray-600 text-center mb-6">Vyber si délku a zkus jen sedět a vnímat svůj dech. Cílem není nic víc, než jen být. Pokud tě napadne myšlenka, je důležité si to nevyčítat a vrátit se k dechu.</p>
+                        <div id="timer-display" class="text-5xl font-mono mb-6">05:00</div>
+                        <div class="flex space-x-2 mb-6">
+                            <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="300">5 min</button>
+                            <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="600">10 min</button>
+                            <button class="timer-btn bg-stone-200 hover:bg-stone-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-time="900">15 min</button>
+                        </div>
+                        <button id="start-timer-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-8 rounded-full transition duration-300">Začít</button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section id="myths" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Mýty vs. Fakta</h2>
-                </div>
-                <div id="myths-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Flipper cards will be injected here -->
-                </div>
-            </div>
-        </section>
-    </main>
+        <section id="myths" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Mýty vs. Fakta</h2>
+                </div>
+                <div id="myths-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    </div>
+            </div>
+        </section>
+    </main>
 
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 Interaktivní průvodce meditací. Vytvořeno s cílem šířit klid a pohodu.</p>
-        </div>
-    </footer>
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 Interaktivní průvodce meditací. Vytvořeno s cílem šířit klid a pohodu.</p>
+        </div>
+    </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            const meditationTypes = [
-                {
-                    title: 'Mindfulness (Všímavost)',
-                    icon: '🧘',
-                    description: 'Praxe trénování pozornosti k přítomnému okamžiku bez posuzování. Často využívá dech jako kotvu k pozorování myšlenek a pocitů, jak přicházejí a odcházejí.',
-                    focus: 'Přítomný okamžik, nehodnotící uvědomění'
-                },
-                {
-                    title: 'Transcendentální meditace (TM)',
-                    icon: '🕉️',
-                    description: 'Tichá meditační technika s použitím personalizované mantry. Cílem je "překonat" myšlení a dosáhnout stavu hlubokého odpočinku a klidné bdělosti.',
-                    focus: 'Transcendentování myšlenek, hluboký klid'
-                },
-                {
-                    title: 'Zen (Zazen)',
-                    icon: '⛩️',
-                    description: 'Základní praxe zenového buddhismu, která klade důraz na přesné držení těla a soustředění na dech. Cílem je "jen sedět" a pozorovat tok mysli bez připoutanosti.',
-                    focus: 'Vhled do pravé podstaty, "jen sedět"'
-                },
-                {
-                    title: 'Vipassana',
-                    icon: '👁️',
-                    description: 'Starověká indická technika, která znamená "vidět věci takové, jaké skutečně jsou". Zahrnuje hluboké zkoumání reality a sebe sama prostřednictvím pozorování.',
-                    focus: 'Vhled do reality, sebepozorování'
-                },
-                {
-                    title: 'Meditace laskavosti (Metta)',
-                    icon: '❤️',
-                    description: 'Kultivace pocitů soucitu, laskavosti a dobré vůle vůči sobě i ostatním. Často zahrnuje opakování pozitivních frází.',
-                    focus: 'Soucit, laskavost, dobrá vůle'
-                },
-                {
-                    title: 'Skenování těla (Body Scan)',
-                    icon: '🤸',
-                    description: 'Systematické zaměřování pozornosti na různé části těla a vnímání jakýchkoli pocitů, napětí nebo uvolnění bez posuzování.',
-                    focus: 'Uvědomění si tělesných vjemů'
-                }
-            ];
+    <audio id="meditation-audio" src="music.m4a" preload="auto" loop></audio>
 
-            const typesGrid = document.getElementById('types-grid');
-            meditationTypes.forEach(type => {
-                const card = document.createElement('div');
-                card.className = 'card bg-white p-6 rounded-xl shadow-md cursor-pointer';
-                card.innerHTML = `
-                    <div class="flex items-center mb-4">
-                        <div class="text-4xl mr-4">${type.icon}</div>
-                        <div>
-                            <h3 class="text-xl font-semibold text-gray-800">${type.title}</h3>
-                            <p class="text-indigo-500 font-medium">${type.focus}</p>
-                        </div>
-                    </div>
-                    <p class="text-gray-600">${type.description}</p>
-                `;
-                typesGrid.appendChild(card);
-            });
-            
-            const accordionData = [
-                {
-                    title: '1. Příprava: Prostor a postoj',
-                    content: 'Najdi si klidné místo, kde nebudeš rušen. Sedět můžeš na židli s rovnými zády a chodidly na zemi, nebo na polštáři se zkříženýma nohama. Důležitá je vzpřímená, ale uvolněná páteř.'
-                },
-                {
-                    title: '2. Dýchání a zaměření pozornosti',
-                    content: 'Zavři oči nebo je nech mírně pootevřené. Zaměř pozornost na svůj dech. Vnímej, jak vzduch proudí dovnitř a ven. Dech nijak neměň, jen ho pozoruj. Je to tvoje kotva v přítomném okamžiku.'
-                },
-                {
-                    title: '3. Jak naložit s myšlenkami',
-                    content: 'Je naprosto normální, že se tvoje mysl bude toulat. Cílem není myšlenky zastavit. Když si všimneš, že jsi se ztratil/a v myšlenkách, jemně a bez posuzování vrať pozornost zpět k dechu. Každý návrat je vítězstvím.'
-                },
-                {
-                    title: '4. Překonávání běžných obtíží',
-                    content: 'Neklid, ospalost nebo fyzické nepohodlí jsou běžné. Zkus je pozorovat se zvědavostí. Pokud je nepohodlí příliš velké, je v pořádku vědomě změnit polohu. Buď k sobě laskavý/á, je to proces učení. A jak se říká,"žádný učený z nebe nespadl"'. :D
-                }
-            ];
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const meditationTypes = [
+                {
+                    title: 'Mindfulness (Všímavost)',
+                    icon: '🧘',
+                    description: 'Praxe trénování pozornosti k přítomnému okamžiku bez posuzování. Často využívá dech jako kotvu k pozorování myšlenek a pocitů, jak přicházejí a odcházejí.',
+                    focus: 'Přítomný okamžik, nehodnotící uvědomění'
+                },
+                {
+                    title: 'Transcendentální meditace (TM)',
+                    icon: '🕉️',
+                    description: 'Tichá meditační technika s použitím personalizované mantry. Cílem je "překonat" myšlení a dosáhnout stavu hlubokého odpočinku a klidné bdělosti.',
+                    focus: 'Transcendentování myšlenek, hluboký klid'
+                },
+                {
+                    title: 'Zen (Zazen)',
+                    icon: '⛩️',
+                    description: 'Základní praxe zenového buddhismu, která klade důraz na přesné držení těla a soustředění na dech. Cílem je "jen sedět" a pozorovat tok mysli bez připoutanosti.',
+                    focus: 'Vhled do pravé podstaty, "jen sedět"'
+                },
+                {
+                    title: 'Vipassana',
+                    icon: '👁️',
+                    description: 'Starověká indická technika, která znamená "vidět věci takové, jaké skutečně jsou". Zahrnuje hluboké zkoumání reality a sebe sama prostřednictvím pozorování.',
+                    focus: 'Vhled do reality, sebepozorování'
+                },
+                {
+                    title: 'Meditace laskavosti (Metta)',
+                    icon: '❤️',
+                    description: 'Kultivace pocitů soucitu, laskavosti a dobré vůle vůči sobě i ostatním. Často zahrnuje opakování pozitivních frází.',
+                    focus: 'Soucit, laskavost, dobrá vůle'
+                },
+                {
+                    title: 'Skenování těla (Body Scan)',
+                    icon: '🤸',
+                    description: 'Systematické zaměřování pozornosti na různé části těla a vnímání jakýchkoli pocitů, napětí nebo uvolnění bez posuzování.',
+                    focus: 'Uvědomění si tělesných vjemů'
+                }
+            ];
 
-            const accordionContainer = document.getElementById('accordion');
-            accordionData.forEach((item, index) => {
-                const accordionItem = document.createElement('div');
-                accordionItem.className = 'bg-white rounded-xl shadow-md';
-                accordionItem.innerHTML = `
-                    <button class="accordion-button w-full text-left p-4 font-semibold text-gray-700 flex justify-between items-center">
-                        <span>${item.title}</span>
-                        <span class="transform transition-transform duration-300">+</span>
-                    </button>
-                    <div class="accordion-content px-4">
-                        <p class="py-4 text-gray-600">${item.content}</p>
-                    </div>
-                `;
-                accordionContainer.appendChild(accordionItem);
-            });
+            const typesGrid = document.getElementById('types-grid');
+            meditationTypes.forEach(type => {
+                const card = document.createElement('div');
+                card.className = 'card bg-white p-6 rounded-xl shadow-md cursor-pointer';
+                card.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <div class="text-4xl mr-4">${type.icon}</div>
+                        <div>
+                            <h3 class="text-xl font-semibold text-gray-800">${type.title}</h3>
+                            <p class="text-indigo-500 font-medium">${type.focus}</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">${type.description}</p>
+                `;
+                typesGrid.appendChild(card);
+            });
+            
+            const accordionData = [
+                {
+                    title: '1. Příprava: Prostor a postoj',
+                    content: 'Najdi si klidné místo, kde nebudeš rušen. Sedět můžeš na židli s rovnými zády a chodidly na zemi, nebo na polštáři se zkříženýma nohama. Důležitá je vzpřímená, ale uvolněná páteř.'
+                },
+                {
+                    title: '2. Dýchání a zaměření pozornosti',
+                    content: 'Zavři oči nebo je nech mírně pootevřené. Zaměř pozornost na svůj dech. Vnímej, jak vzduch proudí dovnitř a ven. Dech nijak neměň, jen ho pozoruj. Je to tvoje kotva v přítomném okamžiku.'
+                },
+                {
+                    title: '3. Jak naložit s myšlenkami',
+                    content: 'Je naprosto normální, že se tvoje mysl bude toulat. Cílem není myšlenky zastavit. Když si všimneš, že jsi se ztratil/a v myšlenkách, jemně a bez posuzování vrať pozornost zpět k dechu. Každý návrat je vítězstvím.'
+                },
+                {
+                    title: '4. Překonávání běžných obtíží',
+                    content: 'Neklid, ospalost nebo fyzické nepohodlí jsou běžné. Zkus je pozorovat se zvědavostí. Pokud je nepohodlí příliš velké, je v pořádku vědomě změnit polohu. Buď k sobě laskavý/á, je to proces učení. A jak se říká,"žádný učený z nebe nespadl"'. :D
+                }
+            ];
 
-            document.querySelectorAll('.accordion-button').forEach(button => {
-                button.addEventListener('click', () => {
-                    const content = button.nextElementSibling;
-                    const icon = button.querySelector('span:last-child');
-                    
-                    if (content.style.maxHeight) {
-                        content.style.maxHeight = null;
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        // Close other open accordions
-                        document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
-                        document.querySelectorAll('.accordion-button span:last-child').forEach(i => i.style.transform = 'rotate(0deg)');
-                        
-                        content.style.maxHeight = content.scrollHeight + "px";
-                        icon.style.transform = 'rotate(45deg)';
-                    }
-                });
-            });
+            const accordionContainer = document.getElementById('accordion');
+            accordionData.forEach((item, index) => {
+                const accordionItem = document.createElement('div');
+                accordionItem.className = 'bg-white rounded-xl shadow-md';
+                accordionItem.innerHTML = `
+                    <button class="accordion-button w-full text-left p-4 font-semibold text-gray-700 flex justify-between items-center">
+                        <span>${item.title}</span>
+                        <span class="transform transition-transform duration-300">+</span>
+                    </button>
+                    <div class="accordion-content px-4">
+                        <p class="py-4 text-gray-600">${item.content}</p>
+                    </div>
+                `;
+                accordionContainer.appendChild(accordionItem);
+            });
 
-            const mythsData = [
-                {
-                    myth: 'Musíte si úplně vyprázdnit mysl.',
-                    fact: 'Cílem není zastavit myšlenky, ale pozorovat je bez posuzování, jako mraky na obloze. Učíte se je nenechat vás ovládat.'
-                },
-                {
-                    myth: 'Musíte meditovat hodiny denně.',
-                    fact: 'Konzistence je důležitější než délka. I 5-10 minut denně přináší prokazatelné výsledky a buduje návyk.'
-                },
-                {
-                    myth: 'Meditace je útěk od reality.',
-                    fact: 'Naopak, je to cesta k hlubšímu pochopení reality. Učí vás čelit životu s větší jasností a klidem.'
-                },
-                {
-                    myth: 'Meditace je jen pro duchovní lidi.',
-                    fact: 'Ačkoliv má duchovní kořeny, dnes je to vědecky ověřená technika pro duševní kondici dostupná všem, bez ohledu na víru.'
-                },
-                {
-                    myth: 'Musíte sedět v lotosovém sedu.',
-                    fact: 'Pohodlí je klíčové. Můžete sedět na židli, na polštáři, nebo i ležet. Důležitá je bdělost a rovná páteř.'
-                },
-                {
-                    myth: 'Meditace je sobecká.',
-                    fact: 'Péče o vlastní duševní zdraví vám umožňuje být trpělivější, soucitnější a přítomnější pro ostatní ve vašem životě.'
-                }
-            ];
+            document.querySelectorAll('.accordion-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const icon = button.querySelector('span:last-child');
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        // Close other open accordions
+                        document.querySelectorAll('.accordion-content').forEach(c => c.style.maxHeight = null);
+                        document.querySelectorAll('.accordion-button span:last-child').forEach(i => i.style.transform = 'rotate(0deg)');
+                        
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.style.transform = 'rotate(45deg)';
+                    }
+                });
+            });
 
-            const mythsGrid = document.getElementById('myths-grid');
-            mythsData.forEach(myth => {
-                const card = document.createElement('div');
-                card.className = 'flipper-card h-48 cursor-pointer';
-                card.innerHTML = `
-                    <div class="flipper-card-inner rounded-xl shadow-md">
-                        <div class="flipper-card-front bg-stone-100 p-6 flex flex-col justify-center items-center text-center">
-                            <p class="text-gray-500 font-semibold mb-2">Mýtus:</p>
-                            <h4 class="text-lg font-bold text-gray-800">${myth.myth}</h4>
-                        </div>
-                        <div class="flipper-card-back bg-indigo-500 text-white p-6 flex flex-col justify-center items-center text-center">
-                            <p class="font-semibold mb-2">Fakt:</p>
-                            <p>${myth.fact}</p>
-                        </div>
-                    </div>
-                `;
-                card.addEventListener('click', () => card.classList.toggle('flipped'));
-                mythsGrid.appendChild(card);
-            });
-            
-            const mentalCtx = document.getElementById('mentalBenefitsChart').getContext('2d');
-            new Chart(mentalCtx, {
-                type: 'radar',
-                data: {
-                    labels: ['Snížení stresu', 'Kontrola úzkosti', 'Zlepšení nálady', 'Zvýšení soustředění', 'Sebeuvědomění', 'Emoční odolnost'],
-                    datasets: [{
-                        label: 'Vliv meditace',
-                        data: [9, 8, 7, 8, 9, 7],
-                        backgroundColor: 'rgba(90, 103, 216, 0.2)',
-                        borderColor: 'rgba(90, 103, 216, 1)',
-                        pointBackgroundColor: 'rgba(90, 103, 216, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(90, 103, 216, 1)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                            pointLabels: { font: { size: 12 } },
-                            suggestedMin: 0,
-                            suggestedMax: 10,
-                            ticks: {
-                                backdropColor: 'transparent',
-                                stepSize: 2
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
+            const mythsData = [
+                {
+                    myth: 'Musíte si úplně vyprázdnit mysl.',
+                    fact: 'Cílem není zastavit myšlenky, ale pozorovat je bez posuzování, jako mraky na obloze. Učíte se je nenechat vás ovládat.'
+                },
+                {
+                    myth: 'Musíte meditovat hodiny denně.',
+                    fact: 'Konzistence je důležitější než délka. I 5-10 minut denně přináší prokazatelné výsledky a buduje návyk.'
+                },
+                {
+                    myth: 'Meditace je útěk od reality.',
+                    fact: 'Naopak, je to cesta k hlubšímu pochopení reality. Učí vás čelit životu s větší jasností a klidem.'
+                },
+                {
+                    myth: 'Meditace je jen pro duchovní lidi.',
+                    fact: 'Ačkoliv má duchovní kořeny, dnes je to vědecky ověřená technika pro duševní kondici dostupná všem, bez ohledu na víru.'
+                },
+                {
+                    myth: 'Musíte sedět v lotosovém sedu.',
+                    fact: 'Pohodlí je klíčové. Můžete sedět na židli, na polštáři, nebo i ležet. Důležitá je bdělost a rovná páteř.'
+                },
+                {
+                    myth: 'Meditace je sobecká.',
+                    fact: 'Péče o vlastní duševní zdraví vám umožňuje být trpělivější, soucitnější a přítomnější pro ostatní ve vašem životě.'
+                }
+            ];
 
-            const physicalCtx = document.getElementById('physicalBenefitsChart').getContext('2d');
-            new Chart(physicalCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Zlepšení spánku', 'Kontrola bolesti', 'Snížení krevního tlaku', 'Posílení imunity'],
-                    datasets: [{
-                        label: 'Účinnost',
-                        data: [8, 6, 9, 7],
-                        backgroundColor: [
-                            'rgba(139, 92, 246, 0.6)',
-                            'rgba(236, 72, 153, 0.6)',
-                            'rgba(16, 185, 129, 0.6)',
-                            'rgba(245, 158, 11, 0.6)'
-                        ],
-                        borderColor: [
-                            'rgba(139, 92, 246, 1)',
-                            'rgba(236, 72, 153, 1)',
-                            'rgba(16, 185, 129, 1)',
-                            'rgba(245, 158, 11, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            suggestedMax: 10
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ` Účinnost: ${context.raw}/10`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            const mythsGrid = document.getElementById('myths-grid');
+            mythsData.forEach(myth => {
+                const card = document.createElement('div');
+                card.className = 'flipper-card h-48 cursor-pointer';
+                card.innerHTML = `
+                    <div class="flipper-card-inner rounded-xl shadow-md">
+                        <div class="flipper-card-front bg-stone-100 p-6 flex flex-col justify-center items-center text-center">
+                            <p class="text-gray-500 font-semibold mb-2">Mýtus:</p>
+                            <h4 class="text-lg font-bold text-gray-800">${myth.myth}</h4>
+                        </div>
+                        <div class="flipper-card-back bg-indigo-500 text-white p-6 flex flex-col justify-center items-center text-center">
+                            <p class="font-semibold mb-2">Fakt:</p>
+                            <p>${myth.fact}</p>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => card.classList.toggle('flipped'));
+                mythsGrid.appendChild(card);
+            });
+            
+            const mentalCtx = document.getElementById('mentalBenefitsChart').getContext('2d');
+            new Chart(mentalCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Snížení stresu', 'Kontrola úzkosti', 'Zlepšení nálady', 'Zvýšení soustředění', 'Sebeuvědomění', 'Emoční odolnost'],
+                    datasets: [{
+                        label: 'Vliv meditace',
+                        data: [9, 8, 7, 8, 9, 7],
+                        backgroundColor: 'rgba(90, 103, 216, 0.2)',
+                        borderColor: 'rgba(90, 103, 216, 1)',
+                        pointBackgroundColor: 'rgba(90, 103, 216, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(90, 103, 216, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { font: { size: 12 } },
+                            suggestedMin: 0,
+                            suggestedMax: 10,
+                            ticks: {
+                                backdropColor: 'transparent',
+                                stepSize: 2
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
 
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+            const physicalCtx = document.getElementById('physicalBenefitsChart').getContext('2d');
+            new Chart(physicalCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Zlepšení spánku', 'Kontrola bolesti', 'Snížení krevního tlaku', 'Posílení imunity'],
+                    datasets: [{
+                        label: 'Účinnost',
+                        data: [8, 6, 9, 7],
+                        backgroundColor: [
+                            'rgba(139, 92, 246, 0.6)',
+                            'rgba(236, 72, 153, 0.6)',
+                            'rgba(16, 185, 129, 0.6)',
+                            'rgba(245, 158, 11, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(236, 72, 153, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            suggestedMax: 10
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` Účinnost: ${context.raw}/10`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('main section');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('active');
-                            }
-                        });
-                    }
-                });
-            }, { rootMargin: '-50% 0px -50% 0px' });
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
 
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
 
-            const timerDisplay = document.getElementById('timer-display');
-            const startTimerBtn = document.getElementById('start-timer-btn');
-            const timerBtns = document.querySelectorAll('.timer-btn');
-            let countdown;
-            let totalSeconds;
-            let selectedTime = 300;
+            sections.forEach(section => {
+                observer.observe(section);
+            });
 
-            function formatTime(seconds) {
-                const mins = Math.floor(seconds / 60);
-                const secs = seconds % 60;
-                return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            }
+            const timerDisplay = document.getElementById('timer-display');
+            const startTimerBtn = document.getElementById('start-timer-btn');
+            const timerBtns = document.querySelectorAll('.timer-btn');
+            const audio = document.getElementById('meditation-audio');
+            let countdown;
+            let totalSeconds;
+            let selectedTime = 300;
 
-            function startTimer() {
-                clearInterval(countdown);
-                totalSeconds = selectedTime;
-                timerDisplay.textContent = formatTime(totalSeconds);
-                startTimerBtn.textContent = 'Zastavit';
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }
 
-                countdown = setInterval(() => {
-                    totalSeconds--;
-                    timerDisplay.textContent = formatTime(totalSeconds);
-                    if (totalSeconds <= 0) {
-                        clearInterval(countdown);
-                        timerDisplay.textContent = "Skvělá práce!";
-                        startTimerBtn.textContent = 'Začít znovu';
-                    }
-                }, 1000);
-            }
+            function fadeOutAndStopMusic() {
+                let volume = 1;
+                const fadeInterval = setInterval(() => {
+                    if (volume > 0.05) {
+                        volume -= 0.05;
+                        audio.volume = volume;
+                    } else {
+                        audio.pause();
+                        audio.volume = 1;
+                        clearInterval(fadeInterval);
+                    }
+                }, 100);
+            }
 
-            function stopTimer() {
-                clearInterval(countdown);
-                timerDisplay.textContent = formatTime(selectedTime);
-                startTimerBtn.textContent = 'Začít';
-            }
+            function startTimer() {
+                clearInterval(countdown);
+                totalSeconds = selectedTime;
+                timerDisplay.textContent = formatTime(totalSeconds);
+                startTimerBtn.textContent = 'Zastavit';
+                audio.play();
 
-            startTimerBtn.addEventListener('click', () => {
-                if (startTimerBtn.textContent.includes('Začít')) {
-                    startTimer();
-                } else {
-                    stopTimer();
-                }
-            });
+                countdown = setInterval(() => {
+                    totalSeconds--;
+                    timerDisplay.textContent = formatTime(totalSeconds);
 
-            timerBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    stopTimer();
-                    selectedTime = parseInt(btn.dataset.time);
-                    timerDisplay.textContent = formatTime(selectedTime);
-                });
-            });
-        });
-    </script>
+                    if (totalSeconds <= 5 && totalSeconds > 0) {
+                        fadeOutAndStopMusic();
+                    }
+
+                    if (totalSeconds <= 0) {
+                        clearInterval(countdown);
+                        timerDisplay.textContent = "Skvělá práce!";
+                        startTimerBtn.textContent = 'Začít znovu';
+                        if (!audio.paused) {
+                            audio.pause();
+                            audio.volume = 1;
+                        }
+                    }
+                }, 1000);
+            }
+
+            function stopTimer() {
+                clearInterval(countdown);
+                timerDisplay.textContent = formatTime(selectedTime);
+                startTimerBtn.textContent = 'Začít';
+                audio.pause();
+                audio.volume = 1;
+            }
+
+            startTimerBtn.addEventListener('click', () => {
+                if (startTimerBtn.textContent.includes('Začít')) {
+                    startTimer();
+                } else {
+                    stopTimer();
+                }
+            });
+
+            timerBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    stopTimer();
+                    selectedTime = parseInt(btn.dataset.time);
+                    timerDisplay.textContent = formatTime(selectedTime);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
