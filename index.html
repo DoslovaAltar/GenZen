@@ -9,10 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Serene Neutrals -->
-    <!-- Application Structure Plan: The application is structured as a single-page journey with a sticky navigation bar for easy access to five core thematic sections: 1. An introduction ('Co je meditace') to set the context. 2. An interactive card-based explorer ('Objevte svůj styl') for different meditation types, which is more engaging than a static table. 3. A data visualization section ('Věda za klidem') using dynamic charts to make the scientific benefits tangible and comparable. 4. A practical, step-by-step guide ('Vaše první kroky') with an accordion UI and a simple interactive timer to make starting less intimidating. 5. An interactive myth-busting section ('Mýty vs. Fakta') using flipper cards for memorable learning. This non-linear, thematic structure was chosen to transform the dense report into an exploratory and user-friendly experience, allowing users to dive into topics based on their interest rather than following a rigid document flow. -->
-    <!-- Visualization & Content Choices: 1. (Types of Meditation) Report Info -> Goal: Compare/Organize -> Viz/Method: Interactive HTML/JS cards -> Interaction: Click to reveal details -> Justification: More engaging and less overwhelming than a large table. 2. (Benefits) Report Info -> Goal: Compare/Show Relationships -> Viz/Method: Chart.js Radar & Bar charts -> Interaction: Hover for tooltips -> Justification: Visually represents the multi-faceted benefits and allows for easy comparison between psychological and physical impacts. 3. (Brain Changes) Report Info -> Goal: Inform/Organize -> Viz/Method: HTML/Tailwind diagram -> Interaction: Static visual -> Justification: Simplifies complex neurological information into an easily digestible graphic. 4. (Beginner's Guide) Report Info -> Goal: Organize/Instruct -> Viz/Method: HTML/JS Accordion -> Interaction: Click to expand/collapse sections -> Justification: Breaks down the process into manageable steps, preventing information overload. 5. (Myths) Report Info -> Goal: Correct Misconceptions -> Viz/Method: HTML/CSS/JS Flipper Cards -> Interaction: Click to flip -> Justification: A playful and memorable way to contrast myths with facts. All choices support the designed application structure. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -58,14 +54,46 @@
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
         }
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #F8F7F4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease-out; /* Doba animace je 0.5 sekundy */
+        }
+        #preloader img {
+            width: 300px;
+            height: auto;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- Preloader -->
+    <div id="preloader">
+        <img src="https://raw.githubusercontent.com/DoslovaAltar/GenZen/refs/heads/main/logo.jpg" alt="Logo GenZen">
+    </div>
+
     <header class="bg-[#F8F7F4]/80 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <a href="#" class="text-2xl font-bold text-gray-800">GenZen</a>
+                <!-- Zde je GenZen text nahrazen logem -->
+                <a href="#" class="flex items-center">
+                    <img src="https://raw.githubusercontent.com/DoslovaAltar/GenZen/refs/heads/main/logo.jpg" alt="Logo GenZen" class="h-10">
+                </a>
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#intro" class="nav-link text-gray-600 px-2 py-1">Úvod</a>
                     <a href="#types" class="nav-link text-gray-600 px-2 py-1">Typy</a>
@@ -94,7 +122,7 @@
              <div class="absolute inset-0 bg-gradient-to-br from-stone-50 to-amber-100 opacity-50"></div>
             <div class="container mx-auto px-6 text-center relative z-10">
                 <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 leading-tight">Objev meditaci s GenZen</h1>
-                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">GenZen tě seznámí se světem meditace – od jejích starověkých kořenů po moderní vědecké poznatky. Najděš si techniku, která vám vyhovuje, a začněte svou cestu k duševní pohodě.</p>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">GenZen tě seznámí se světem meditace – od jejích starověkých kořenů po moderní vědecké poznatky. Najdeš si techniku, která ti vyhovuje, a začneš svou cestu k duševní pohodě.</p>
             </div>
         </section>
 
@@ -128,7 +156,7 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Objevte svůj styl</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Neexistuje jedna "správná" meditace. Různé techniky nabízejí odlišné cesty. Klikněte na karty a prozkoumejte, která z nich s vámi nejvíce rezonuje.</p>
+                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Neexistuje jedna "správná" meditace. Různé techniky nabízejí odlišné cesty.</p>
                 </div>
                 <div id="types-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
@@ -209,7 +237,6 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Mýty vs. Fakta</h2>
-                    <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">Kolem meditace panuje mnoho mýtů. Klikněte na karty a odhalte, co je pravda a co jen mylná představa.</p>
                 </div>
                 <div id="myths-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 </div>
@@ -219,7 +246,7 @@
 
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center">
-            <p>&copy; 2025 GenZen. Vytvořeno s cílem šířit klid a pohodu.</p>
+            <p>2025 GenZen by DoslovaAltar</p>
         </div>
     </footer>
 
@@ -285,19 +312,19 @@
             const accordionData = [
                 {
                     title: '1. Příprava: Prostor a postoj',
-                    content: 'Najděte si klidné místo, kde nebudete rušeni. Sedět můžete na židli s rovnými zády a chodidly na zemi, nebo na polštáři se zkříženýma nohama. Důležitá je vzpřímená, ale uvolněná páteř.'
+                    content: 'Najdi si klidné místo, kde nebudeš rušen. Sedět můžeš na židli s rovnými zády a chodidly na zemi, nebo na polštáři se zkříženýma nohama. Důležitá je vzpřímená, ale uvolněná páteř.'
                 },
                 {
                     title: '2. Dýchání a zaměření pozornosti',
-                    content: 'Zavřete oči nebo je nechte mírně pootevřené. Zaměřte pozornost na svůj dech. Vnímejte, jak vzduch proudí dovnitř a ven. Dech nijak neměňte, jen ho pozorujte. Je to vaše kotva v přítomném okamžiku.'
+                    content: 'Zavři oči nebo je nech mírně pootevřené. Zaměř pozornost na svůj dech. Vnímej, jak vzduch proudí dovnitř a ven. Dech nijak neměň, jen ho pozoruj. Je to tvoje kotva v přítomném okamžiku.'
                 },
                 {
                     title: '3. Jak naložit s myšlenkami',
-                    content: 'Je naprosto normální, že se vaše mysl bude toulat. Cílem není myšlenky zastavit. Když si všimnete, že jste se ztratili v myšlenkách, jemně a bez posuzování vraťte pozornost zpět k dechu. Každý návrat je malým vítězstvím.'
+                    content: 'Je naprosto normální, že se tvoje mysl bude toulat. Cílem není myšlenky zastavit. Když si všimneš, že jsi se ztratili v myšlenkách, jemně a bez posuzování vrať pozornost zpět k dechu. Každý návrat je vítězstvím.'
                 },
                 {
                     title: '4. Překonávání běžných obtíží',
-                    content: 'Neklid, ospalost nebo fyzické nepohodlí jsou běžné. Zkuste je pozorovat se zvědavostí. Pokud je nepohodlí příliš velké, je v pořádku vědomě změnit polohu. Buďte k sobě laskaví, je to proces učení.'
+                    content: 'Neklid, ospalost nebo fyzické nepohodlí jsou běžné. Zkus je pozorovat se zvědavostí. Pokud je nepohodlí příliš velké, je v pořádku vědomě změnit polohu. Buď k sobě laskavý/a, je to proces učení.'
                 }
             ];
 
@@ -337,28 +364,28 @@
 
             const mythsData = [
                 {
-                    myth: 'Musíte si úplně vyprázdnit mysl.',
-                    fact: 'Cílem není zastavit myšlenky, ale pozorovat je bez posuzování, jako mraky na obloze. Učíte se je nenechat vás ovládat.'
+                    myth: 'Musíš si úplně vyprázdnit mysl.',
+                    fact: 'Cílem není zastavit myšlenky, ale pozorovat je bez posuzování, jako mraky na obloze. Učíš se je nenechat tě ovládat.'
                 },
                 {
-                    myth: 'Musíte meditovat hodiny denně.',
+                    myth: 'Musíš meditovat hodiny denně.',
                     fact: 'Konzistence je důležitější než délka. I 5-10 minut denně přináší prokazatelné výsledky a buduje návyk.'
                 },
                 {
                     myth: 'Meditace je útěk od reality.',
-                    fact: 'Naopak, je to cesta k hlubšímu pochopení reality. Učí vás čelit životu s větší jasností a klidem.'
+                    fact: 'Naopak, je to cesta k hlubšímu pochopení reality. Učí tě čelit životu s větší jasností a klidem.'
                 },
                 {
                     myth: 'Meditace je jen pro duchovní lidi.',
                     fact: 'Ačkoliv má duchovní kořeny, dnes je to vědecky ověřená technika pro duševní kondici dostupná všem, bez ohledu na víru.'
                 },
                 {
-                    myth: 'Musíte sedět v lotosovém sedu.',
-                    fact: 'Pohodlí je klíčové. Můžete sedět na židli, na polštáři, nebo i ležet. Důležitá je bdělost a rovná páteř.'
+                    myth: 'Musíš sedět v lotosovém sedu.',
+                    fact: 'Pohodlí je klíčové. Můžeš sedět na židli, na polštáři, nebo i ležet. Důležitá je bdělost a rovná páteř.'
                 },
                 {
                     myth: 'Meditace je sobecká.',
-                    fact: 'Péče o vlastní duševní zdraví vám umožňuje být trpělivější, soucitnější a přítomnější pro ostatní ve vašem životě.'
+                    fact: 'Péče o vlastní duševní zdraví ti umožňuje být trpělivější, soucitnější a přítomnější pro ostatní ve tvém životě.'
                 }
             ];
 
@@ -543,48 +570,60 @@
                     timerDisplay.textContent = formatTime(totalSeconds);
                     if (totalSeconds <= 0) {
                         clearInterval(countdown);
-                        timerDisplay.textContent = "Skvělá práce!";
-                        startTimerBtn.textContent = 'Začít znovu';
+                        timerDisplay.textContent = "Hotovo!";
+                        startTimerBtn.textContent = "Začít";
                         playCalmingSound();
                     }
                 }, 1000);
             }
 
-            function stopTimer() {
-                clearInterval(countdown);
-                timerDisplay.textContent = formatTime(selectedTime);
-                startTimerBtn.textContent = 'Začít';
-            }
-
             startTimerBtn.addEventListener('click', () => {
-                if (!audioContext) {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (startTimerBtn.textContent.includes('Začít')) {
+                if (startTimerBtn.textContent === 'Začít') {
                     startTimer();
                 } else {
-                    stopTimer();
+                    clearInterval(countdown);
+                    startTimerBtn.textContent = 'Začít';
+                    timerDisplay.textContent = formatTime(selectedTime);
                 }
             });
 
             timerBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    stopTimer();
                     selectedTime = parseInt(btn.dataset.time);
                     timerDisplay.textContent = formatTime(selectedTime);
+                    startTimerBtn.textContent = 'Začít';
+                    clearInterval(countdown);
                 });
             });
 
             setCustomTimeBtn.addEventListener('click', () => {
-                const minutes = parseInt(customTimeInput.value, 10);
-                if (!isNaN(minutes) && minutes > 0) {
-                    stopTimer();
-                    selectedTime = minutes * 60;
+                const customMinutes = parseInt(customTimeInput.value);
+                if (!isNaN(customMinutes) && customMinutes > 0) {
+                    selectedTime = customMinutes * 60;
                     timerDisplay.textContent = formatTime(selectedTime);
-                    customTimeInput.value = '';
+                    startTimerBtn.textContent = 'Začít';
+                    clearInterval(countdown);
+                } else {
+                    alert('Prosím, zadej platný počet minut.');
                 }
             });
         });
+
+        // Opravená funkce preloaderu, která počká, až animace fade-out skončí
+        window.onload = function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                // Po 4 sekundách začne animace fade-out, která trvá 0.5 sekundy
+                setTimeout(function() {
+                    preloader.style.opacity = '0';
+                    
+                    // Po skončení animace úplně skryje element
+                    preloader.addEventListener('transitionend', function() {
+                        preloader.style.display = 'none';
+                    });
+                }, 4000);
+            }
+        };
     </script>
 </body>
 </html>
